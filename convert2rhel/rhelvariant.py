@@ -18,9 +18,21 @@
 import os
 import re
 import logging
+
 from convert2rhel import utils
 
 _supported_variants = None
+
+
+def check_rhn_classic():
+    loggerinst = logging.getLogger(__name__)
+    if os.path.isfile("/etc/sysconfig/rhn/systemid"):
+        loggerinst.critical("RHN Classic detected! \n"
+                            "Please follow the bellow link for more information how to disable it:\n"
+                            "https://access.redhat.com/documentation/en-us/red_hat_subscription_management/1/html/migrating_from_rhn_classic/index"  # pylint: disable=C0321
+                            "\n\n Convertion will not proceed.")
+
+    return
 
 
 def is_variant_supported(variant):
@@ -33,6 +45,11 @@ def determine_rhel_variant():
     if not tool_opts.variant:
         tool_opts.variant = _user_to_choose_rhel_variant()
     loggerinst.info("Variant: %s" % tool_opts.variant)
+
+    # checking RHN Classic
+    loggerinst.info("Checking RHN Classic")
+    check_rhn_classic()
+
     return
 
 

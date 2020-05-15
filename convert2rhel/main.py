@@ -144,7 +144,6 @@ def pre_ponr_conversion():
     # remove blacklisted packages
     loggerinst.task("Convert: Remove blacklisted packages")
     pkghandler.remove_blacklisted_pkgs()
-
     # install redhat release package
     loggerinst.task("Convert: Install Red Hat release package")
     redhatrelease.install_release_pkg()

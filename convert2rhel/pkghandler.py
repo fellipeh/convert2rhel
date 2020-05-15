@@ -34,6 +34,7 @@ class PkgWFingerprint(object):
     """Tuple-like storage for the RPM object of a package and a fingerprint
     with which the package was signed.
     """
+
     def __init__(self, pkg_obj, fingerprint):
         self.pkg_obj = pkg_obj
         self.fingerprint = fingerprint
@@ -317,7 +318,7 @@ def remove_blacklisted_pkgs():
     print_pkg_info(installed_blacklisted_pkgs)
     utils.ask_to_continue()
     utils.remove_pkgs([get_pkg_nvra(pkg)
-                      for pkg in installed_blacklisted_pkgs])
+                       for pkg in installed_blacklisted_pkgs])
     return
 
 
