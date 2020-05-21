@@ -25,15 +25,36 @@ _supported_variants = None
 
 logger = logging.getLogger(__name__)
 
-def check_rhn_classic():
-    loggerinst = logging.getLogger(__name__)
-    if os.path.isfile("/etc/sysconfig/rhn/systemid"):
-        loggerinst.critical("RHN Classic detected! \n"
-                            "Please follow the bellow link for more information how to disable it:\n"
-                            "https://access.redhat.com/documentation/en-us/red_hat_subscription_management/1/html/migrating_from_rhn_classic/index"  # pylint: disable=C0321
-                            "\n\n Convertion will not proceed.")
+
+def check_rhn_classic(_systemid_path="/etc/sysconfig/rhn/systemid"):
+    if os.path.isfile(_systemid_path):
+        logger.critical(
+            "RHN Classic detected! \n"
+            "Please follow the bellow link for more information how to disable it:\n"
+            "https://access.redhat.com/documentation/en-us/red_hat_subscription_management/1/html/migrating_from_rhn_classic/index"  # pylint: disable=C0321
+            "\n\n Convertion will not proceed."
+        )
 
     return
+
+
+import unittest
+import tempfile
+
+from mock import patch
+
+
+class RhelVariantTestSuit(unittest.TestCase):
+    @patch(target="rhelvariant.logger.critical")
+    def test_check_rhn_classic_has_systemid(self, mocked_logger):
+        with tempfile.NamedTemporaryFile() as systemid_f:
+            check_rhn_classic(_systemid_path=systemid_f.name)
+        self.assertIn("RHN Classic detected", mocked_logger.call_args[0][0])
+
+    @patch(target="rhelvariant.logger.critical")
+    def test_check_rhn_classic_no_systemid(self, mocked_logger):
+        self.assertIsNone(check_rhn_classic(_systemid_path="/not/exists"))
+        self.assertIsNone(mocked_logger.call_args)
 
 
 def is_variant_supported(variant):
