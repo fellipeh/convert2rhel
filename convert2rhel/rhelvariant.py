@@ -23,6 +23,7 @@ from convert2rhel import utils
 
 _supported_variants = None
 
+logger = logging.getLogger(__name__)
 
 def check_rhn_classic():
     loggerinst = logging.getLogger(__name__)
@@ -42,6 +43,7 @@ def is_variant_supported(variant):
 def determine_rhel_variant():
     loggerinst = logging.getLogger(__name__)
     from convert2rhel.toolopts import tool_opts
+
     if not tool_opts.variant:
         tool_opts.variant = _user_to_choose_rhel_variant()
     loggerinst.info("Variant: %s" % tool_opts.variant)
