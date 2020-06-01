@@ -243,8 +243,9 @@ def print_pkg_info(pkgs):
     result = "%-*s  %-*s  %s" % (max_nvra_length, "Package", max_vendor_length,
                                  "Vendor", "Repository") + "\n"
     loggerinst.info("%-*s  %-*s  %s"
-                    % (max_nvra_length, "Package", max_vendor_length, "Vendor",
-                       "Repository"))
+                    % (max_nvra_length, "-" * len("Package"),
+                       max_vendor_length, "-" * len("Vendor"),
+                       "-" * len("Repository")))
     result += "%-*s  %-*s  %s" % (max_nvra_length, "-" * len("Package"),
                                   max_vendor_length, "-" * len("Vendor"),
                                   "-" * len("Repository")) + "\n"
