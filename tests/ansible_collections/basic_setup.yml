@@ -13,6 +13,14 @@
       args:
         chdir: ../..
 
+    - name: Get convert2rhel version
+      delegate_to: localhost
+      shell: cat packaging/convert2rhel.spec | awk '/Version.+/ {print $2}'
+      args:
+        chdir: ../..
+      register: pkg_version
+
+
     - name: Copying rpms to docker remote
       delegate_to: localhost
       shell: "docker cp .rpms {{ inventory_hostname }}:/data/"
@@ -29,7 +37,7 @@
     - name: Install el8 convert2rhel package
       yum:
         # TODO make the rpm version get automatically
-        name: "{{ repo_root }}/.rpms/convert2rhel-0.20-1.el8.noarch.rpm"
+        name: "{{ repo_root }}/.rpms/convert2rhel-{{ pkg_version.stdout }}-1.el8.noarch.rpm"
         state: present
         disable_gpg_check: true
       when: (ansible_facts['distribution'] == "CentOS") and
@@ -37,8 +45,7 @@
 
     - name: Install el7 convert2rhel package
       yum:
-        # TODO make the rpm version get automatically
-        name: "{{ repo_root }}/.rpms/convert2rhel-0.20-1.el7.noarch.rpm"
+        name: "{{ repo_root }}/.rpms/convert2rhel-{{ pkg_version.stdout }}-1.el7.noarch.rpm"
         state: present
         disable_gpg_check: true
       when: (ansible_facts['distribution'] == "CentOS") and
