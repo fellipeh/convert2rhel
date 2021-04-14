@@ -12,3 +12,15 @@ services:
       service: centos7int
     build:
       dockerfile: Dockerfiles/integration.centos8.Dockerfile
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfiles/testrunner.Dockerfile
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/bin/kvm:/usr/bin/kvm
+    - /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock
+    - ./convert2rhel:/convert2rhel/convert2rhel
+    - ./.rpms:/convert2rhel/.rpms
+    - ./tests:/convert2rhel/tests
+    - ./plans:/convert2rhel/plans
