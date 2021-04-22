@@ -1,0 +1,20 @@
+- name: Copy repofile with internal RHEL 6 repositories
+  copy:
+    src: 'rhel-6-internal.repo'
+    dest: '/etc/yum.repos.d'
+  when: (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "6") or
+        (ansible_facts['distribution'] == "OracleLinux" and ansible_facts['distribution_major_version'] == "6")
+
+- name: Copy repofile with internal RHEL 7 repositories
+  copy:
+    src: 'rhel-7-internal.repo'
+    dest: '/etc/yum.repos.d'
+  when: (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7") or
+        (ansible_facts['distribution'] == "OracleLinux" and ansible_facts['distribution_major_version'] == "7")
+
+- name: Copy repofile with internal RHEL 8 repositories
+  copy:
+    src: 'rhel-8-internal.repo'
+    dest: '/etc/yum.repos.d'
+  when: (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "8") or
+        (ansible_facts['distribution'] == "OracleLinux" and ansible_facts['distribution_major_version'] == "8")

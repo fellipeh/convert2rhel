@@ -1,0 +1,6 @@
+discover+:
+    filter:
+        - 'tag: check-custom-repo'
+#prepare+:
+#    playbook+:
+#        - tests/integration/check-custom-repo/ansible/kmods.yml

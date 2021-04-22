@@ -3,6 +3,8 @@
     # to be overridden by the tmt
     repo_root:
   tasks:
+    # including rhel internal repos for tests purposes
+    - include: copy_internal_rhel_repos.yml
 
     - name: Get convert2rhel version
       delegate_to: localhost
